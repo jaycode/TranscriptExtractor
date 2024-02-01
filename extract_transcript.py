@@ -3,6 +3,7 @@ import argparse
 from moviepy.editor import VideoFileClip
 from transformers import AutoModelForSpeechSeq2Seq, AutoProcessor, pipeline
 import torch
+import pdb
 
 def extract_audio(video_filepath, output_filepath):
     video_clip = VideoFileClip(video_filepath)
@@ -34,8 +35,25 @@ def extract_transcript(audio_filepath, output_filepath):
     # Process the audio file directly
     result = asr_pipeline(audio_filepath)
 
+    final_text = ""
+    for chunk in result['chunks']:
+        t1 = format_time(chunk['timestamp'][0])
+        t2 = format_time(chunk['timestamp'][1])
+        text = chunk['text'].strip()
+        final_text += f"{t1} - {t2}\n{text}\n\n"
+    final_text = final_text.strip()
+
     with open(output_filepath, 'w') as file:
-        file.write(result['text'])
+        file.write(final_text)
+
+def format_time(seconds):
+    # Calculate hours, minutes and remaining seconds
+    hours = int(seconds // 3600)
+    minutes = int((seconds % 3600) // 60)
+    remaining_seconds = seconds % 60
+
+    # Format the time string
+    return f"{hours:02d}:{minutes:02d}:{remaining_seconds:05.2f}"
 
 def main():
     parser = argparse.ArgumentParser(description='Extract audio from video and transcribe.')
