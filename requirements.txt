@@ -1,0 +1,3 @@
+transformers
+moviepy
+torchaudio
