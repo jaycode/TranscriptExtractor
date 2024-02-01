@@ -47,13 +47,16 @@ def extract_transcript(audio_filepath, output_filepath):
         file.write(final_text)
 
 def format_time(seconds):
-    # Calculate hours, minutes and remaining seconds
-    hours = int(seconds // 3600)
-    minutes = int((seconds % 3600) // 60)
-    remaining_seconds = seconds % 60
+    if seconds:
+        # Calculate hours, minutes and remaining seconds
+        hours = int(seconds // 3600)
+        minutes = int((seconds % 3600) // 60)
+        remaining_seconds = seconds % 60
 
-    # Format the time string
-    return f"{hours:02d}:{minutes:02d}:{remaining_seconds:05.2f}"
+        # Format the time string
+        return f"{hours:02d}:{minutes:02d}:{remaining_seconds:05.2f}"
+    else:
+        return ""
 
 def main():
     parser = argparse.ArgumentParser(description='Extract audio from video and transcribe.')
