@@ -40,7 +40,7 @@ def extract_transcript(audio_filepath, output_filepath):
 def main():
     parser = argparse.ArgumentParser(description='Extract audio from video and transcribe.')
     parser.add_argument('video_filepath', type=str, help='Path to the video file.')
-    parser.add_argument('-o', '--output', type=str, default='output.txt', help='Output file path (default: output.txt)')
+    parser.add_argument('-o', '--output', type=str, default='output.srt', help='Output file path (default: output.srt)')
 
     args = parser.parse_args()
 
